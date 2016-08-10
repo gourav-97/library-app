@@ -1,0 +1,63 @@
+{% load staticfiles %}
+    <link href="{% static 'project/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+
+{% block body %}
+
+    <div id="wrapper">
+
+
+			<section class="page-header page-header-xs">
+				<div class="container">
+
+					<h1>BOOKS LIST</h1>
+
+
+
+				</div>
+			</section>
+
+            <div class="container">
+                <div id="conference" class="container tab-pane fade in active">
+
+                    <table class="table table-vertical-middle margin-bottom-60">
+                            <thead>
+                                    <tr class="size-15">
+                                        <th class="text-center hidden-xs width-300 weight-100">BOOK TITLE</th>
+                                        <th class="text-center hidden-xs width-300 weight-100">AUTHOR</th>
+                                        <th class="text-center hidden-xs width-100 weight-100">PRICE</th>
+                                        <th class="text-center hidden-xs width-100 weight-100">AUTHOR CONTACT</th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+                                    {% for book in books_list %}
+
+                                    <tr>
+
+                                        <td class="text-center hidden-xs">
+                                            <p>{{ book.book_title }}{% if is_librarian == True %} <a href="#">(EDIT)</a> {% endif %}</p>
+                                        </td>
+                                        <td class="text-center hidden-xs">
+                                            <p>{{ book.book_author}}</p>
+                                        </td>
+                                        <td class="text-center hidden-xs">
+                                            <p>Rs.{{ book.book_price }}</p>
+                                        </td>
+                                        <td class="text-center hidden-xs">
+                                            <p>{{ book.book_author_contact }}</p>
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+
+                            </tbody>
+                    </table>
+                {% if is_librarian == True %}
+                    <button type="submit" class="btn btn-primary btn-block btn-large">ADD BOOKS</button>
+                {% endif %}
+
+                </div>
+
+            </div>
+    </div>
+
+{% endblock %}
