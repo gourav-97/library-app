@@ -72,3 +72,51 @@ def form_page(request):
     except BaseException, e:
         print str(e) + str(sys.exc_traceback.tb_lineno)
         return HttpResponse("page not found")
+
+
+
+def add_book_request(request):
+    try:
+
+        if request.method == 'POST':
+            info = dict()
+            print request.POST
+
+
+            info['book_author'] = request.POST['book_author']
+            info['book_price'] = request.POST['book_price']
+            info['book_title'] = request.POST['book_title']
+            info['book_author_contact'] = request.POST['book_author_contact']
+
+            created_book = add_book(info)
+
+            if created_book:
+                return render(request, 'project/form_page.html', {})
+
+            return HttpResponse("error")
+
+
+    except BaseException, e:
+        print str(e) + str(sys.exc_traceback.tb_lineno)
+        return HttpResponse("unable to render request")
+
+
+
+
+
+
+def add_book(info):
+    try:
+        book = Books()
+        book.book_title = info['book_title']
+        book.book_author = info['book_author']
+        book.book_price = info['book_price']
+        book.book_author_contact = info['book_author_contact']
+        book.save()
+        return book
+
+    except BaseException, e:
+        print str(e) + str(sys.exc_traceback.tb_lineno)
+        return None
+
+

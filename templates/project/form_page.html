@@ -1,7 +1,16 @@
 {% load staticfiles %}
     <link href="{% static 'project/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+<!-- Add jQuery library -->
+	<script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js'  %}"></script>
+
+
+	<!-- Add fancyBox main JS and CSS files -->
+	<script type="text/javascript" src="{% static 'js/jquery.fancybox.pack.js'  %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'project/jquery.fancybox.css'  %}" media="screen" />
+
 
 {% block body %}
+    {% csrf_token %}
 
     <div id="wrapper">
 
@@ -17,7 +26,7 @@
 			</section>
 
             <div class="container">
-                <div id="conference" class="container tab-pane fade in active">
+
 
                     <table class="table table-vertical-middle margin-bottom-60">
                             <thead>
@@ -34,7 +43,7 @@
                                     <tr>
 
                                         <td class="text-center hidden-xs">
-                                            <p>{{ book.book_title }}{% if is_librarian == True %} <a href="#">(EDIT)</a> {% endif %}</p>
+                                            <p>{{ book.book_title }}{% if is_librarian == True %} <a href="#fancybox" class="fancybox">(EDIT)</a> {% endif %}</p>
                                         </td>
                                         <td class="text-center hidden-xs">
                                             <p>{{ book.book_author}}</p>
@@ -52,12 +61,73 @@
                             </tbody>
                     </table>
                 {% if is_librarian == True %}
-                    <button type="submit" class="btn btn-primary btn-block btn-large">ADD BOOKS</button>
+                    <a href="#fancybox" class="fancybox">ADD BOOKS</a>
                 {% endif %}
 
-                </div>
+
+{#                    <a href="#fancybox" class="fancybox">Link to open fancybox</a>#}
+
+                    <div id="fancybox" data-fancybox-group="gallery" style="display: none;">
+                        <h1> ADD BOOKS</h1>
+                         <form id="myForm" method="POST">
+                             {% csrf_token %}
+                                <input type="text" id="book_title" placeholder="Book Title" required="required" />
+                             <br>
+                                <input type="text" id="book_author" placeholder="Book Author" required="required" />
+                             <br>
+                              <input type="text" id="book_price" placeholder="Book Price" required="required" />
+                             <br>
+                              <input type="text" id="book_author_contact" placeholder="Author Contact" />
+                             <br>
+                             <button type="submit">SUBMIT</button>
+
+
+
+
+                         </form>
+                    </div>
+
 
             </div>
     </div>
+
+    <script type="text/javascript">
+           $(document).ready(function() {
+
+
+               $('.fancybox').fancybox();
+           });
+           </script>
+
+
+
+            <script>
+            $(document).on('submit','#myForm', function(e){
+                e.preventDefault();
+
+               $.ajax({
+                   type: 'POST',
+                   url: '/project/add_book/',
+                   data:{
+                       book_title:$('#book_title').val(),
+                       book_author:$('#book_author').val(),
+                       book_price:$('#book_price').val(),
+                       book_author_contact:$('#book_author_contact').val(),
+                        csrfmiddlewaretoken:'{{csrf_token}}',
+
+
+                   },
+
+
+                   success:function(){
+                       prompt("book added!");
+                   }
+
+               })
+
+           });
+
+
+    </script>
 
 {% endblock %}
