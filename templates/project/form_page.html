@@ -43,7 +43,9 @@
                                     <tr>
 
                                         <td class="text-center hidden-xs">
-                                            <p>{{ book.book_title }}{% if is_librarian == True %} <a href="#editbox" class="fancybox">(EDIT)</a> {% endif %}</p>
+                                            <p>{{ book.book_title }}
+{#                                                {% if is_librarian == True %} <a href="#editbox" class="fancybox">(EDIT)</a> {% endif %}#}
+                                            </p>
                                         </td>
                                         <td class="text-center hidden-xs">
                                             <p>{{ book.book_author}}</p>
@@ -65,9 +67,8 @@
                 {% endif %}
 
 
-{#                    <a href="#fancybox" class="fancybox">Link to open fancybox</a>#}
 
-                    <div id="fancybox" data-fancybox-group="gallery" style="display: none;">
+                    <div id="fancybox" style="display: none;">
                         <h1> ADD BOOKS</h1>
                          <form id="myForm" method="POST">
                              {% csrf_token %}
@@ -89,25 +90,25 @@
 
 
 
-                    <div id="editbox" data-fancybox-group="gallery" style="display: none;">
-                        <h1> EDIT BOOKS</h1>
-                         <form id="editForm" method="POST">
-                             {% csrf_token %}
-                                <input type="text" id="book_title" placeholder="Book Title" required="required" value="{{ book.book_title }}" />
-                             <br>
-                                <input type="text" id="book_author" placeholder="Book Author" required="required" value="{{ book.book_author }}"/>
-                             <br>
-                              <input type="text" id="book_price" placeholder="Book Price" required="required" value="{{ book.book_price }}"/>
-                             <br>
-                              <input type="text" id="book_author_contact" placeholder="Author Contact" value="{{ book.book_author_contact }}"/>
-                             <br>
-                             <button type="submit">UPDATE</button>
-
-
-
-
-                         </form>
-                    </div>
+{#                    <div id="editbox" style="display: none;">#}
+{#                        <h1> EDIT BOOKS</h1>#}
+{#                         <form id="editForm" method="POST">#}
+{#                             {% csrf_token %}#}
+{#                                <input type="text" id="book_title" placeholder="Book Title" required="required"  />#}
+{#                             <br>#}
+{#                                <input type="text" id="book_author" placeholder="Book Author" required="required" />#}
+{#                             <br>#}
+{#                              <input type="text" id="book_price" placeholder="Book Price" required="required" />#}
+{#                             <br>#}
+{#                              <input type="text" id="book_author_contact" placeholder="Author Contact" />#}
+{#                             <br>#}
+{#                             <button type="submit">UPDATE</button>#}
+{##}
+{##}
+{##}
+{##}
+{#                         </form>#}
+{#                    </div>#}
 
 
 
@@ -158,37 +159,37 @@
 
     </script>
 
-     <script>
-            $(document).on('submit','#editForm', function(e){
-                e.preventDefault();
-
-               $.ajax({
-                   type: 'POST',
-                   url: '/project/edit_book/',
-                   data:{
-                       book_title:$('#book_title').val(),
-                       book_author:$('#book_author').val(),
-                       book_price:$('#book_price').val(),
-                       book_author_contact:$('#book_author_contact').val(),
-                        csrfmiddlewaretoken:'{{csrf_token}}',
+{#     <script>#}
+{#            $(document).on('submit','#editForm', function(e){#}
+{#                e.preventDefault();#}
+{##}
+{#               $.ajax({#}
+{#                   type: 'POST',#}
+{#                   url: '/project/edit_book/',#}
+{#                   data:{#}
+{#                       book_title:$('#book_title').val(),#}
+{#                       book_author:$('#book_author').val(),#}
+{#                       book_price:$('#book_price').val(),#}
+{#                       book_author_contact:$('#book_author_contact').val(),#}
+{#                        csrfmiddlewaretoken:'{{csrf_token}}',#}
 {#                       .done(function(returned_data){#}
 {##}
 {##}
 {#    });#}
-
-                 success : function(info) {
-
-            console.log(info); // log the returned json to the console
-            console.log("success"); // another sanity check
-        }
-
-        }
-
-               })
-
-           });
-
-
-    </script>
+{##}
+{#                 success : function(info) {#}
+{##}
+{#            console.log(info); // log the returned json to the console#}
+{#            console.log("success"); // another sanity check#}
+{#        }#}
+{##}
+{#        }#}
+{##}
+{#               })#}
+{##}
+{#           });#}
+{##}
+{##}
+{#    </script>#}
 
 {% endblock %}
